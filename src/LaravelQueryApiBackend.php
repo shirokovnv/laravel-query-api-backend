@@ -4,6 +4,13 @@ namespace Shirokovnv\LaravelQueryApiBackend;
 
 class LaravelQueryApiBackend
 {
+    /**
+     * Makes instance for query runner.
+     * For available options see config file
+     * @param $request
+     * @param array $options
+     * @return QueryRunner
+     */
     public static function makeQueryRunnerInstance($request, array $options = [])
     {
         $isWarningable = $options['isWarningable'] ??

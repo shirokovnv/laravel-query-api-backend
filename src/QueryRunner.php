@@ -10,11 +10,10 @@ use Shirokovnv\LaravelQueryApiBackend\Queries\QueryFactory;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Support\Collection;
+use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 
 class QueryRunner
 {
-    private const AVAILABLE_QUERY_MODES = ['transaction', 'multiple'];
-
     /**
      * @var
      */
@@ -214,7 +213,7 @@ class QueryRunner
      */
     public function run(): QueryResult
     {
-        if (!in_array($this->query_mode, self::AVAILABLE_QUERY_MODES)) {
+        if (!in_array($this->query_mode, Constants::AVAILABLE_QUERY_MODES)) {
             throw new UnknownQueryModeException();
         }
 

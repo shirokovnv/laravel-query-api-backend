@@ -5,7 +5,7 @@
 [![Build Status][ico-travis]][link-travis]
 [![StyleCI][ico-styleci]][link-styleci]
 
-Unified API for running queries with eloquent models from any http client
+Unified API for running queries with eloquent models from any http client.
 
 ## Installation
 
@@ -35,7 +35,23 @@ Once installed you can do stuff like this in Controller:
 
 $request is Illuminate\Http\Request or Illuminate\Foundation\Http\FormRequest
 
-For available $options see config section
+For available options see config section
+Request must contain following keys: query_data, query_mode
+Example controller: Shirokovnv\LaravelQueryApiBackend\Http\Controllers\QueryApiController
+
+### Query modes:
+
+> transaction 
+
+runs a couple of queries as a whole. If one of the queries fails,
+transaction will be rolled back.
+
+> multiple
+
+runs a couple of queries individually.
+
+all errors will be added to the error pool with the rest of the result.
+
 
 ## Change log
 
