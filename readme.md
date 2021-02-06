@@ -7,7 +7,9 @@
 
 Unified API for running queries with eloquent models from any http client.
 
-For query data format and usage in frontend see this package: https://github.com/shirokovnv/laravel-query-api-frontend
+For query data format and usage in frontend see (this package)[https://github.com/shirokovnv/laravel-query-api-frontend]
+
+> The package is in beta testing right now. 
 
 ## Installation
 
@@ -39,9 +41,15 @@ $request is Illuminate\Http\Request or Illuminate\Foundation\Http\FormRequest
 
 For available options see config section
 
-Request must contain following keys: query_data, query_mode
+Request must contain following keys:
 
-Example controller: Shirokovnv\LaravelQueryApiBackend\Http\Controllers\QueryApiController
+> query_data
+
+> query_mode
+
+Example controller: 
+
+> Shirokovnv\LaravelQueryApiBackend\Http\Controllers\QueryApiController
 
 ### Available query modes:
 
