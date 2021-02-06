@@ -7,6 +7,8 @@
 
 Unified API for running queries with eloquent models from any http client.
 
+For query data format and usage in frontend see this package: https://github.com/shirokovnv/laravel-query-api-frontend
+
 ## Installation
 
 Via Composer
@@ -30,16 +32,18 @@ Once installed you can do stuff like this in Controller:
     $queryResult = $queryRunner->run();
     $queryRunner->saveLog();
       
-    return response()->json( $queryResult );
+    return response()->json($queryResult);
 ```
 
 $request is Illuminate\Http\Request or Illuminate\Foundation\Http\FormRequest
 
 For available options see config section
+
 Request must contain following keys: query_data, query_mode
+
 Example controller: Shirokovnv\LaravelQueryApiBackend\Http\Controllers\QueryApiController
 
-### Query modes:
+### Available query modes:
 
 > transaction 
 
@@ -50,7 +54,7 @@ transaction will be rolled back.
 
 runs a couple of queries individually.
 
-all errors will be added to the error pool with the rest of the result.
+all occurred errors will be added to the error pool with the rest of the result.
 
 
 ## Change log
