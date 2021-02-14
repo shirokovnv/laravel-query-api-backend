@@ -200,6 +200,10 @@ class Fetch extends TraceableQuery
 
             'offset' => function ($q, $args) {
                 return $q->offset($args['offset']);
+            },
+
+            'select' => function ($q, $args) {
+                return $q->select($args['columns']);
             }
         ];
     }

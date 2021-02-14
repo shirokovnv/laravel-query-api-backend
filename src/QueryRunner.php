@@ -101,7 +101,7 @@ class QueryRunner
      * Makes specific type of query (e.g.: create, update, etc.) from data array
      * @param array $query_data
      * @return Queries\Create|Queries\Custom|Queries\Delete|Queries\Fetch|Queries\Find|Queries\Update
-     * @throws Exceptions\UnknownActionException
+     * @throws Exceptions\UnknownActionException|Exceptions\BadQueriedClassException
      */
     public function makeQueryFromData(array $query_data)
     {
@@ -338,7 +338,7 @@ class QueryRunner
         $query_data = $query[1]->run();
         $query_warnings = $query[1]->getWarnings();
 
-        if ($query_warnings && !empty($query_warnings)) {
+        if (!empty($query_warnings)) {
             $this->queries_result->addWarning($query_key, $query_warnings);
         }
 

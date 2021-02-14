@@ -2,12 +2,16 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend;
 
+use Shirokovnv\LaravelQueryApiBackend\Exceptions\BadQueriedClassException;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownActionException;
+use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 use Shirokovnv\LaravelQueryApiBackend\Support\ShouldValidate;
 use Illuminate\Support\Facades\Validator;
 
 class QueryValidator
 {
+    private static $isClassInterfaceValid;
+
     /**
      * Validates specific model
      * We store validation rules in FormRequests, e.g.
@@ -122,6 +126,7 @@ class QueryValidator
 
     /**
      * @param array $query_data
+     * @throws BadQueriedClassException
      */
     public static function validateQueryData(array $query_data): void
     {
@@ -132,5 +137,39 @@ class QueryValidator
         ]);
 
         $validator->validate();
+
+        if (!self::isQueriedClassValid($query_data['type'], $query_data['query'])) {
+            throw new BadQueriedClassException();
+        }
+    }
+
+    public static function isQueriedClassValid(string $class_name, string $query_type)
+    {
+        self::$isClassInterfaceValid = self::isClassInterfaceValid($class_name);
+        if ($query_type === 'custom') {
+            return self::$isClassInterfaceValid;
+        }
+
+        return self::isClassParentValid($class_name);
+    }
+
+    public static function isClassInterfaceValid(string $class_name)
+    {
+        $class_interfaces = array_values(class_implements($class_name));
+
+        return (!empty(array_intersect(
+            Constants::AVAILABLE_CUSTOM_QUERY_INTERFACES,
+            $class_interfaces
+        )));
+    }
+
+    public static function isClassParentValid(string $class_name)
+    {
+        $class_parents = array_values(class_parents($class_name));
+
+        return (!empty(array_intersect(
+            Constants::AVAILABLE_MODEL_PARENT_CLASSES,
+            $class_parents
+        )));
     }
 }
