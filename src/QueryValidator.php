@@ -105,6 +105,7 @@ class QueryValidator
     public static function getRequestMethodNameForAction(string $action_name): string
     {
         switch ($action_name) {
+            case 'custom':
             case 'create':
                 return 'POST';
                 break;
@@ -117,17 +118,11 @@ class QueryValidator
                 return 'DELETE';
                 break;
 
+            case 'find':
             case 'fetch':
                 return 'GET';
                 break;
 
-            case 'find':
-                return 'GET';
-                break;
-
-            case 'custom':
-                return 'POST';
-                break;
         }
 
         throw new UnknownActionException($action_name);
