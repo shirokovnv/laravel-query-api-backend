@@ -28,7 +28,6 @@ class QueryGate
      */
     public static function denies($ability, $arguments = [])
     {
-        $name = 'test styleci';
         if (self::shouldAuthorizeFor($ability, $arguments)) {
             return Gate::denies($ability, $arguments);
         }

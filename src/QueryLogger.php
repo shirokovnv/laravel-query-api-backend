@@ -8,7 +8,8 @@ use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryChainLog;
 use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryLog;
 
 /**
- * Class QueryLogger.
+ * Class QueryLogger
+ * @package Shirokovnv\LaravelQueryApiBackend
  */
 class QueryLogger
 {
