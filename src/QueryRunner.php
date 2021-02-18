@@ -225,7 +225,7 @@ class QueryRunner
                 $this->runQueries();
 
                 if (!empty($this->queries_result->getErrors())) {
-                    throw new TransactionException("{uniqid}");
+                    throw new TransactionException("{$this->request->client_request_id}");
                 }
             });
         } catch (Exception $e) {

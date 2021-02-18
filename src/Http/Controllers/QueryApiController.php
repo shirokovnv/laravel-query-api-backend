@@ -12,7 +12,7 @@ use Shirokovnv\LaravelQueryApiBackend\Http\Requests\QueryApiRequest;
  *
  * @package Shirokovnv\LaravelQueryApiBackend\Http\Controllers
  */
-class QueryApiController extends Controller
+class QueryApiController extends \App\Http\Controllers\Controller
 {
     public function __construct()
     {
