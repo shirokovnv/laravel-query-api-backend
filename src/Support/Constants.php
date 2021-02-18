@@ -3,9 +3,7 @@
 namespace Shirokovnv\LaravelQueryApiBackend\Support;
 
 /**
- * Class Constants
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Support
+ * Class Constants.
  */
 class Constants
 {
@@ -16,19 +14,19 @@ class Constants
 
     public const AVAILABLE_MODEL_PARENT_CLASSES = [
         "Illuminate\Database\Eloquent\Model",
-        "Illuminate\Foundation\Auth\User"
+        "Illuminate\Foundation\Auth\User",
     ];
 
     public const AVAILABLE_CUSTOM_QUERY_INTERFACES = [
-        "Shirokovnv\LaravelQueryApiBackend\Support\Runnable"
+        "Shirokovnv\LaravelQueryApiBackend\Support\Runnable",
     ];
 
     /**
-     * Maximum level of calling subqueries
+     * Maximum level of calling subqueries.
      */
     public const MAXIMUM_DEPTH = 7;
     /**
-     * Maximum number of fetched elements
+     * Maximum number of fetched elements.
      */
     public const PER_PAGE_MAX_LIMIT = 1000;
 }

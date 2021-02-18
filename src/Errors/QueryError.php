@@ -9,14 +9,12 @@ use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownErrorCategoryException;
 use Stringable;
 
 /**
- * Class QueryError
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ * Class QueryError.
  */
 abstract class QueryError implements JsonSerializable, Arrayable, Stringable
 {
     /**
-     * Available error categories to show in frontend
+     * Available error categories to show in frontend.
      */
     public const AVAILABLE_CATEGORIES = [
         'validation',
@@ -25,7 +23,7 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
         'client',
         'database',
         'server',
-        'unknown'
+        'unknown',
     ];
 
     /**
@@ -68,7 +66,7 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
                 'code' => $this->exception->getCode(),
                 'file' => $this->exception->getFile(),
                 'line' => $this->exception->getLine(),
-                'trace' => $this->exception->getTrace()
+                'trace' => $this->exception->getTrace(),
             ];
     }
 
@@ -79,7 +77,7 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
     {
         return [
             'category' => $this->category,
-            'content' => $this->getErrorContent()
+            'content' => $this->getErrorContent(),
         ];
     }
 
@@ -122,7 +120,7 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
                 [
                     'file' => $this->exception->getFile(),
                     'line' => $this->exception->getLine(),
-                    'trace' => $this->exception->getTrace()
+                    'trace' => $this->exception->getTrace(),
                 ];
         }
 
@@ -187,7 +185,7 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
      */
     protected function checkCategory(string $category): void
     {
-        if (!in_array($category, self::AVAILABLE_CATEGORIES)) {
+        if (! in_array($category, self::AVAILABLE_CATEGORIES)) {
             throw new UnknownErrorCategoryException(self::AVAILABLE_CATEGORIES);
         }
     }

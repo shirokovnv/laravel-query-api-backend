@@ -7,8 +7,7 @@ use Illuminate\Http\Request;
 use Str;
 
 /**
- * Class ClientRequestId
- * @package Shirokovnv\LaravelQueryApiBackend\Http\Middleware
+ * Class ClientRequestId.
  */
 class ClientRequestId
 {

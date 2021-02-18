@@ -24,12 +24,11 @@ class RelationChain
      */
     public function buildRelationSubChain(string $model_class_name, array $relations)
     {
-
         if (count($relations) === 0) {
             return null;
         }
 
-        $relation_name = explode(":", $relations[0])[0];
+        $relation_name = explode(':', $relations[0])[0];
 
         $related_model_class = get_class(
             with(new $model_class_name())->{$relation_name}()->getRelated()
@@ -39,7 +38,7 @@ class RelationChain
             with(new $model_class_name())->{$relation_name}()
         );
 
-        $exploded_rel = explode("\\", $relation_class);
+        $exploded_rel = explode('\\', $relation_class);
 
         $relation_kind = end($exploded_rel);
 
@@ -68,13 +67,12 @@ class RelationChain
      */
     private function getPermissionNameForRelation(string $relation_kind)
     {
-
         $groupViewAny = [
-            'BelongsToMany', 'HasMany', 'MorphMany', 'MorphToMany', 'HasManyThrough'
+            'BelongsToMany', 'HasMany', 'MorphMany', 'MorphToMany', 'HasManyThrough',
         ];
 
         $groupView = [
-            'BelongsTo', 'HasOne', 'HasOneThrough', 'MorphTo', 'MorphOne'
+            'BelongsTo', 'HasOne', 'HasOneThrough', 'MorphTo', 'MorphOne',
         ];
 
         if (in_array($relation_kind, $groupView)) {

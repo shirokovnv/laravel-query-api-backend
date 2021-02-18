@@ -7,9 +7,7 @@ use Illuminate\Validation\Rule;
 use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 
 /**
- * Class QueryApiRequest
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Http\Requests
+ * Class QueryApiRequest.
  */
 class QueryApiRequest extends FormRequest
 {
@@ -32,7 +30,7 @@ class QueryApiRequest extends FormRequest
     {
         return [
             'query_mode' => Rule::in(Constants::AVAILABLE_QUERY_MODES),
-            'query_data' => 'required'
+            'query_data' => 'required',
         ];
     }
 }

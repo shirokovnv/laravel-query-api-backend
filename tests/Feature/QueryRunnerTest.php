@@ -63,7 +63,7 @@ class QueryRunnerTest extends TestCase
         $request = new Request([
             'query_data' => json_decode($testData, true),
             'query_mode' => 'transaction',
-            'client_request_id' => Str::uuid()
+            'client_request_id' => Str::uuid(),
         ]);
 
         $runner = LaravelQueryApiBackend::makeQueryRunnerInstance($request, []);

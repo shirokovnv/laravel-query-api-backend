@@ -2,20 +2,18 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend;
 
+use Gate;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\BadArgumentException;
 use Shirokovnv\LaravelQueryApiBackend\Queries\TraceableQuery;
 use Shirokovnv\LaravelQueryApiBackend\Support\RelationNode;
 use Shirokovnv\LaravelQueryApiBackend\Support\ShouldAuthorize;
-use Gate;
 
 /**
- * Class QueryGate
- *
- * @package Shirokovnv\LaravelQueryApiBackend
+ * Class QueryGate.
  */
 class QueryGate
 {
-    private const ASTERISK = "*";
+    private const ASTERISK = '*';
 
     /**
      * @var array
@@ -33,13 +31,14 @@ class QueryGate
         if (self::shouldAuthorizeFor($ability, $arguments)) {
             return Gate::denies($ability, $arguments);
         }
+
         return false;
     }
 
     /**
      * Defines whether specific class should be authorized for specific abilities
      * Class should implement Shirokovnv\LaravelQueryApiBackend\Support\ShouldAuthorize interface for checking
-     * Otherwise false will be returned
+     * Otherwise false will be returned.
      *
      * @param $ability
      * @param array|mixed $arguments
@@ -51,7 +50,7 @@ class QueryGate
         $model_class_name = self::getModelClassNameFromArguments($arguments);
 
         $implements = class_implements($model_class_name);
-        if (!in_array(ShouldAuthorize::class, $implements)) {
+        if (! in_array(ShouldAuthorize::class, $implements)) {
             return false;
         }
 
@@ -62,7 +61,8 @@ class QueryGate
         if (in_array(self::ASTERISK, $should_authorize_abilities)) {
             return true;
         }
-        return (in_array($ability, $should_authorize_abilities));
+
+        return in_array($ability, $should_authorize_abilities);
     }
 
     /**
@@ -81,7 +81,7 @@ class QueryGate
 
         if (gettype($arguments) === 'array') {
             if (empty($arguments)) {
-                throw new BadArgumentException("Arguments field must contain at least 1 element");
+                throw new BadArgumentException('Arguments field must contain at least 1 element');
             }
 
             if (gettype($arguments[0]) === 'string') {
@@ -92,7 +92,7 @@ class QueryGate
             }
         }
 
-        throw new BadArgumentException("Type for model must be a string or an object");
+        throw new BadArgumentException('Type for model must be a string or an object');
     }
 
     /**
@@ -106,11 +106,12 @@ class QueryGate
         if (self::shouldAuthorizeFor($ability, $arguments)) {
             return Gate::allows($ability, $arguments);
         }
+
         return true;
     }
 
     /**
-     * Checks for item permissions, defined in Laravel Policies
+     * Checks for item permissions, defined in Laravel Policies.
      *
      * @param $item
      * @param RelationNode $rel_node
@@ -138,9 +139,9 @@ class QueryGate
                 // just unset relation without warning, if we already passed it
                 unset($item->{$relation_name});
             } else {
-                if (!self::check('viewAny', $relation_class)) {
+                if (! self::check('viewAny', $relation_class)) {
                     self::addToDropCandidates($relation_name);
-                    $query->addWarning("You don't have access to see " . $relation_name);
+                    $query->addWarning("You don't have access to see ".$relation_name);
                     unset($item->{$relation_name});
                 }
             }
@@ -151,13 +152,13 @@ class QueryGate
                 $relation_class = get_class($item->{$relation_name});
                 $relation_id = $item->{$relation_name}->id;
 
-                if (self::isDropCandidate($relation_class . $relation_id)) {
+                if (self::isDropCandidate($relation_class.$relation_id)) {
                     unset($item->{$relation_name});
                 } else {
-                    if (!self::check('view', $item->{$relation_name})) {
-                        self::addToDropCandidates($relation_class . $relation_id);
-                        $query->addWarning("You don't have access to see " .
-                            $relation_name .
+                    if (! self::check('view', $item->{$relation_name})) {
+                        self::addToDropCandidates($relation_class.$relation_id);
+                        $query->addWarning("You don't have access to see ".
+                            $relation_name.
                             " with id {$item->{$relation_name}->id} ");
                         unset($item->{$relation_name});
                     }
@@ -168,7 +169,6 @@ class QueryGate
         if ($next != null && $item->{$relation_name} != null) {
             if ($item->{$relation_name} instanceof Collection) {
                 $item->{$relation_name}->map(function (&$nested_item) use (&$query, &$next) {
-
                     self::recursiveSetItemPermissions($nested_item, $next, $query);
 
                     return $nested_item;
@@ -199,6 +199,7 @@ class QueryGate
         if (self::shouldAuthorizeFor($ability, $arguments)) {
             return Gate::check($ability, $arguments);
         }
+
         return true;
     }
 

@@ -2,15 +2,13 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend;
 
+use Illuminate\Support\Collection;
 use Shirokovnv\LaravelQueryApiBackend\Queries\TraceableQuery;
 use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryChainLog;
 use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryLog;
-use Illuminate\Support\Collection;
 
 /**
- * Class QueryLogger
- *
- * @package Shirokovnv\LaravelQueryApiBackend
+ * Class QueryLogger.
  */
 class QueryLogger
 {
@@ -27,7 +25,7 @@ class QueryLogger
                 'ip' => $result->getRequest()->ip(),
                 'user_agent' => $result->getRequest()->server('HTTP_USER_AGENT'),
                 'query_mode' => $result->getRequest()->query_mode,
-                'status' => $result->getStatus()
+                'status' => $result->getStatus(),
             ]
         );
     }
@@ -38,7 +36,6 @@ class QueryLogger
      */
     public static function initializeQueryLog(TraceableQuery &$query)
     {
-
         $potentialError = $query->getError();
         $potentialErrorText = ($potentialError) ? $potentialError->renderForBackend() : null;
 
@@ -49,7 +46,7 @@ class QueryLogger
                 'model_class_name' => $query->getModelClassName(),
                 'client_query_data' => $query->getQueryParams(),
                 'status' => $query->getResultStatus(),
-                'error_text' => $potentialErrorText
+                'error_text' => $potentialErrorText,
             ]
         );
     }

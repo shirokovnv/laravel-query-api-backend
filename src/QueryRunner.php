@@ -2,20 +2,17 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend;
 
+use Exception;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Shirokovnv\LaravelQueryApiBackend\Errors\QueryErrorFactory;
-use Shirokovnv\LaravelQueryApiBackend\Exceptions\InvalidQueryDataFormatException;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\TransactionException;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownQueryModeException;
 use Shirokovnv\LaravelQueryApiBackend\Queries\QueryFactory;
-use Illuminate\Support\Facades\DB;
-use Exception;
-use Illuminate\Support\Collection;
 use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 
 /**
- * Class QueryRunner
- *
- * @package Shirokovnv\LaravelQueryApiBackend
+ * Class QueryRunner.
  */
 class QueryRunner
 {
@@ -75,7 +72,6 @@ class QueryRunner
         $this->query_mode = $this->request->query_mode;
 
         $this->queries = $data_queries_collection->map(function ($query_data) {
-
             return [$query_data['key'], $this->makeQueryFromData($query_data)];
         });
     }
@@ -97,7 +93,7 @@ class QueryRunner
     }
 
     /**
-     * Makes specific type of query (e.g.: create, update, etc.) from data array
+     * Makes specific type of query (e.g.: create, update, etc.) from data array.
      *
      * @param array $query_data
      * @return Queries\Create|Queries\Custom|Queries\Delete|Queries\Fetch|Queries\Find|Queries\Update
@@ -191,14 +187,14 @@ class QueryRunner
     }
 
     /**
-     * Runs all queries from collection, based on specific mode: transaction or multiple
+     * Runs all queries from collection, based on specific mode: transaction or multiple.
      *
      * @return QueryResult
      * @throws UnknownQueryModeException
      */
     public function run(): QueryResult
     {
-        if (!in_array($this->query_mode, Constants::AVAILABLE_QUERY_MODES)) {
+        if (! in_array($this->query_mode, Constants::AVAILABLE_QUERY_MODES)) {
             throw new UnknownQueryModeException();
         }
 
@@ -211,7 +207,7 @@ class QueryRunner
     }
 
     /**
-     * Runs all queries in transaction mode
+     * Runs all queries in transaction mode.
      *
      * @return QueryResult
      */
@@ -221,10 +217,9 @@ class QueryRunner
 
         try {
             DB::transaction(function () {
-
                 $this->runQueries();
 
-                if (!empty($this->queries_result->getErrors())) {
+                if (! empty($this->queries_result->getErrors())) {
                     throw new TransactionException("{$this->request->client_request_id}");
                 }
             });
@@ -243,7 +238,7 @@ class QueryRunner
     }
 
     /**
-     * Runs all queries in multiple mode
+     * Runs all queries in multiple mode.
      *
      * @return QueryResult
      */
@@ -261,7 +256,7 @@ class QueryRunner
     }
 
     /**
-     * Runs all the queries
+     * Runs all the queries.
      */
     private function runQueries()
     {
@@ -289,7 +284,7 @@ class QueryRunner
     }
 
     /**
-     * Do actual execution of a single query
+     * Do actual execution of a single query.
      *
      * @param $query
      * @throws Exceptions\UnknownActionException
@@ -305,12 +300,12 @@ class QueryRunner
         );
 
         /**
-         * Run query
+         * Run query.
          */
         $query_data = $query[1]->run();
         $query_warnings = $query[1]->getWarnings();
 
-        if (!empty($query_warnings)) {
+        if (! empty($query_warnings)) {
             $this->queries_result->addWarning($query_key, $query_warnings);
         }
 
@@ -326,7 +321,7 @@ class QueryRunner
     }
 
     /**
-     * Clears the results of runned queries
+     * Clears the results of runned queries.
      */
     public function clearResults()
     {
@@ -355,15 +350,15 @@ class QueryRunner
     }
 
     /**
-     * Saves log about queries to database
+     * Saves log about queries to database.
      *
      * @throws Exception
      */
     public function saveLog(): void
     {
-        if (!$this->isLoggable()) {
+        if (! $this->isLoggable()) {
             throw new Exception(
-                "Runner is not loggable. Probably you need to define config properly.",
+                'Runner is not loggable. Probably you need to define config properly.',
                 500
             );
         }
