@@ -12,6 +12,11 @@ use Exception;
 use Illuminate\Support\Collection;
 use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 
+/**
+ * Class QueryRunner
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend
+ */
 class QueryRunner
 {
     /**
@@ -45,11 +50,6 @@ class QueryRunner
     private $query_mode;
 
     /**
-     * @var string
-     */
-    private $client_request_id;
-
-    /**
      * @var QueryResult
      */
     private $queries_result;
@@ -73,7 +73,6 @@ class QueryRunner
     {
         $data_queries_collection = collect($this->request->query_data);
         $this->query_mode = $this->request->query_mode;
-        $this->client_request_id = $this->request->client_request_id;
 
         $this->queries = $data_queries_collection->map(function ($query_data) {
 
@@ -99,6 +98,7 @@ class QueryRunner
 
     /**
      * Makes specific type of query (e.g.: create, update, etc.) from data array
+     *
      * @param array $query_data
      * @return Queries\Create|Queries\Custom|Queries\Delete|Queries\Fetch|Queries\Find|Queries\Update
      * @throws Exceptions\UnknownActionException|Exceptions\BadQueriedClassException
@@ -191,23 +191,8 @@ class QueryRunner
     }
 
     /**
-     * @return string
-     */
-    public function getClientRequestId(): string
-    {
-        return $this->client_request_id;
-    }
-
-    /**
-     * @param string $client_request_id
-     */
-    public function setClientRequestId(string $client_request_id): void
-    {
-        $this->client_request_id = $client_request_id;
-    }
-
-    /**
      * Runs all queries from collection, based on specific mode: transaction or multiple
+     *
      * @return QueryResult
      * @throws UnknownQueryModeException
      */
@@ -227,6 +212,7 @@ class QueryRunner
 
     /**
      * Runs all queries in transaction mode
+     *
      * @return QueryResult
      */
     public function runTransaction(): QueryResult
@@ -235,28 +221,8 @@ class QueryRunner
 
         try {
             DB::transaction(function () {
-                $this->queries->each(function (&$query) {
-                    $query_key = $query[0];
 
-                    try {
-                        $this->runQuery($query);
-                    } catch (Exception $e) {
-                        $query_error = QueryErrorFactory::createFor($e);
-                        $query_error->setTraceable($this->isTraceable());
-
-                        $query[1]->setError($query_error);
-
-                        $this->queries_result->addError(
-                            $query_key,
-                            $query_error
-                        );
-                    }
-                    finally {
-                        if ($this->isLoggable()) {
-                            $query[1]->setLogInstance();
-                        }
-                    }
-                });
+                $this->runQueries();
 
                 if (!empty($this->queries_result->getErrors())) {
                     throw new TransactionException("{uniqid}");
@@ -267,8 +233,7 @@ class QueryRunner
                 '__global',
                 QueryErrorFactory::createFor($e)
             );
-        }
-        finally {
+        } finally {
             if ($this->isLoggable()) {
                 $this->queries_result->setLogInstance();
             }
@@ -279,12 +244,27 @@ class QueryRunner
 
     /**
      * Runs all queries in multiple mode
+     *
      * @return QueryResult
      */
     public function runMultiple(): QueryResult
     {
         $this->clearResults();
 
+        $this->runQueries();
+
+        if ($this->isLoggable()) {
+            $this->queries_result->setLogInstance();
+        }
+
+        return $this->queries_result;
+    }
+
+    /**
+     * Runs all the queries
+     */
+    private function runQueries()
+    {
         $this->queries->each(function (&$query) {
             $query_key = $query[0];
 
@@ -300,30 +280,22 @@ class QueryRunner
                     $query_key,
                     $query_error
                 );
-            }
-            finally {
+            } finally {
                 if ($this->isLoggable()) {
                     $query[1]->setLogInstance();
                 }
             }
-
         });
-
-        if ($this->isLoggable()) {
-            $this->queries_result->setLogInstance();
-        }
-
-        return $this->queries_result;
     }
 
     /**
-     * Runs actual execution of a single query
+     * Do actual execution of a single query
+     *
      * @param $query
      * @throws Exceptions\UnknownActionException
      */
     public function runQuery(&$query)
     {
-
         $query_key = $query[0];
 
         QueryValidator::validate(
@@ -351,7 +323,6 @@ class QueryRunner
             $query_key,
             $query[1]->getTrace()
         );
-
     }
 
     /**
@@ -385,6 +356,7 @@ class QueryRunner
 
     /**
      * Saves log about queries to database
+     *
      * @throws Exception
      */
     public function saveLog(): void
@@ -392,15 +364,15 @@ class QueryRunner
         if (!$this->isLoggable()) {
             throw new Exception(
                 "Runner is not loggable. Probably you need to define config properly.",
-                500);
+                500
+            );
         }
 
         $query_chain_log = $this->queries_result->getLogInstance();
-        $actual_query_logs = $this->queries->map(function(&$query) {
+        $actual_query_logs = $this->queries->map(function (&$query) {
             return $query[1]->getLogInstance();
         });
 
         QueryLogger::saveLog($query_chain_log, $actual_query_logs);
     }
-
 }

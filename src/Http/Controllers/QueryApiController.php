@@ -2,13 +2,14 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend\Http\Controllers;
 
-use Shirokovnv\LaravelQueryApiBackend\Http\Requests\QueryApiRequest;
-use Shirokovnv\LaravelQueryApiBackend\Http\Middleware\ClientRequestId
 use Shirokovnv\LaravelQueryApiBackend\Facades\LaravelQueryApiBackend;
+use Shirokovnv\LaravelQueryApiBackend\Http\Middleware\ClientRequestId;
+use Shirokovnv\LaravelQueryApiBackend\Http\Requests\QueryApiRequest;
 
 /**
  * Example controller for processing queries
  * Class QueryApiController
+ *
  * @package Shirokovnv\LaravelQueryApiBackend\Http\Controllers
  */
 class QueryApiController extends Controller
@@ -31,5 +32,4 @@ class QueryApiController extends Controller
 
         return response()->json($queryResult);
     }
-
 }

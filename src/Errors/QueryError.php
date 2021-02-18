@@ -2,14 +2,22 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend\Errors;
 
-use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownErrorCategoryException;
 use Exception;
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
+use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownErrorCategoryException;
 use Stringable;
 
+/**
+ * Class QueryError
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ */
 abstract class QueryError implements JsonSerializable, Arrayable, Stringable
 {
+    /**
+     * Available error categories to show in frontend
+     */
     public const AVAILABLE_CATEGORIES = [
         'validation',
         'authorization',
@@ -34,11 +42,34 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
      */
     protected $traceable;
 
+    /**
+     * QueryError constructor.
+     *
+     * @param Exception $e
+     * @param string $category
+     * @param bool $isTraceable
+     *
+     * @throws UnknownErrorCategoryException
+     */
     public function __construct(Exception $e, string $category, bool $isTraceable = true)
     {
         $this->setException($e);
         $this->setTraceable($isTraceable);
         $this->setCategory($category);
+    }
+
+    /**
+     * @return array
+     */
+    public function renderForBackend(): array
+    {
+        return $this->renderForClient() +
+            [
+                'code' => $this->exception->getCode(),
+                'file' => $this->exception->getFile(),
+                'line' => $this->exception->getLine(),
+                'trace' => $this->exception->getTrace()
+            ];
     }
 
     /**
@@ -52,36 +83,34 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
         ];
     }
 
-    public function renderForBackend()
-    {
-        return $this->renderForClient() +
-        [
-            'code' => $this->exception->getCode(),
-            'file' => $this->exception->getFile(),
-            'line' => $this->exception->getLine(),
-            'trace' => $this->exception->getTrace()
-        ];
-    }
+    /**
+     * @return array
+     */
+    abstract public function getErrorContent(): array;
 
-    public function toArray()
-    {
-        return $this->renderForClient();
-    }
-
+    /**
+     * @return array|mixed
+     */
     public function jsonSerialize()
     {
         return $this->toArray();
     }
 
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->renderForClient();
+    }
+
+    /**
+     * @return false|string
+     */
     public function __toString()
     {
         return json_encode($this->toArray(), JSON_PRETTY_PRINT);
     }
-
-    /**
-     * @return array
-     */
-    abstract public function getErrorContent(): array;
 
     /**
      * @return array
@@ -119,16 +148,17 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
     /**
      * @return string
      */
-    protected function getCategory()
+    protected function getCategory(): string
     {
         return $this->category;
     }
 
     /**
      * @param string $category
+     *
      * @throws UnknownErrorCategoryException
      */
-    protected function setCategory(string $category)
+    protected function setCategory(string $category): void
     {
         $this->checkCategory($category);
         $this->category = $category;
@@ -137,7 +167,7 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
     /**
      * @return mixed
      */
-    protected function getException()
+    protected function getException(): mixed
     {
         return $this->exception;
     }
@@ -145,16 +175,17 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
     /**
      * @param Exception $e
      */
-    protected function setException(Exception $e)
+    protected function setException(Exception $e): void
     {
         $this->exception = $e;
     }
 
     /**
      * @param string $category
+     *
      * @throws UnknownErrorCategoryException
      */
-    protected function checkCategory(string $category)
+    protected function checkCategory(string $category): void
     {
         if (!in_array($category, self::AVAILABLE_CATEGORIES)) {
             throw new UnknownErrorCategoryException(self::AVAILABLE_CATEGORIES);

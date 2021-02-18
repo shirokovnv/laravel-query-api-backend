@@ -9,8 +9,18 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Class QueryErrorFactory
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ */
 class QueryErrorFactory
 {
+    /**
+     * @param Exception $e
+     *
+     * @return AuthenticationError|AuthorizationError|ClientError|DatabaseError|ServerError|ValidationError
+     */
     public static function createFor(Exception $e)
     {
 

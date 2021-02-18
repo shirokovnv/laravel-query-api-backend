@@ -8,6 +8,11 @@ use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 use Shirokovnv\LaravelQueryApiBackend\Support\ShouldValidate;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Class QueryValidator
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend
+ */
 class QueryValidator
 {
     private static $isClassInterfaceValid;
@@ -17,6 +22,7 @@ class QueryValidator
      * We store validation rules in FormRequests, e.g.
      * for model App\Models\User , App\Http\Requests\Models\UserRequest should exist.
      * Otherwise ClassNotFoundException will be thrown
+     *
      * @param string $model_class_name
      * @param string $action_name
      * @param array $params
@@ -46,6 +52,7 @@ class QueryValidator
     /**
      * Defines whether specific class should be validated for specific action
      * Class should implement Shirokovnv\LaravelQueryApiBackend\Support\ShouldValidate interface
+     *
      * @param string $model_class_name
      * @param string $action_name
      * @return bool
@@ -69,6 +76,7 @@ class QueryValidator
 
     /**
      * e.g. for App\Models\User it returns App\Http\Requests\Models\UserRequest
+     *
      * @param string $model_class_name
      * @return string
      */
@@ -89,6 +97,7 @@ class QueryValidator
 
     /**
      * Converts specific action name to http request method name, based on REST
+     *
      * @param string $action_name
      * @return string
      * @throws UnknownActionException

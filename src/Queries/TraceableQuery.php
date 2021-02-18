@@ -77,7 +77,8 @@ abstract class TraceableQuery implements Runnable
     /**
      * Generates unique string, representing backend request ID
      */
-    public function makeUUID(): void {
+    public function makeUUID(): void
+    {
         $this->uuid = Str::uuid();
     }
 
@@ -219,6 +220,7 @@ abstract class TraceableQuery implements Runnable
 
     /**
      * Traces SQL-query and fixes result, executed in $fn
+     *
      * @param callable $fn
      * @return mixed
      */

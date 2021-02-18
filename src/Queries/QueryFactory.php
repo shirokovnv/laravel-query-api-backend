@@ -3,15 +3,25 @@
 namespace Shirokovnv\LaravelQueryApiBackend\Queries;
 
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownActionException;
+use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 
+/**
+ * Class QueryFactory
+ * @package Shirokovnv\LaravelQueryApiBackend\Queries
+ */
 class QueryFactory
 {
-    const AVAILABLE_ACTIONS = ['create', 'custom', 'delete', 'fetch', 'find', 'update'];
-
+    /**
+     * @param array $query_data
+     *
+     * @return Create|Custom|Delete|Fetch|Find|Update
+     *
+     * @throws UnknownActionException
+     */
     public static function create(array $query_data)
     {
 
-        if (!in_array($query_data['query'], self::AVAILABLE_ACTIONS)) {
+        if (!in_array($query_data['query'], Constants::AVAILABLE_ACTIONS)) {
             throw new UnknownActionException("{$query_data[query]}");
         }
 

@@ -2,26 +2,24 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend\Queries;
 
+use DB;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\AccessDeniedException;
+use Shirokovnv\LaravelQueryApiBackend\Exceptions\BadArgumentException;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\MaximumDepthReachedException;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownQueryPartException;
 use Shirokovnv\LaravelQueryApiBackend\QueryGate;
+use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 use Shirokovnv\LaravelQueryApiBackend\Support\RelationChain;
-use DB;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Str;
 
+/**
+ * Class Fetch
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend\Queries
+ */
 class Fetch extends TraceableQuery
 {
-    /**
-     * Maximum level of calling subqueries
-     */
-    private const MAXIMUM_DEPTH = 7;
-    /**
-     * Maximum number of fetched elements
-     */
-    private const PER_PAGE_MAX_LIMIT = 1000;
-
     /**
      * @var string
      */
@@ -72,6 +70,23 @@ class Fetch extends TraceableQuery
         parent::__construct();
     }
 
+    /**
+     * @param array $args
+     */
+    public function setPaginationByArgs(array $args)
+    {
+        if (isset($args['per_page'])) {
+            $this->per_page = min(Constants::PER_PAGE_MAX_LIMIT, $args['per_page']);
+        }
+
+        if (isset($args['page'])) {
+            $this->page = $args['page'];
+        }
+    }
+
+    /**
+     * Builds map of usable conditions in fetch query
+     */
     private function buildKindMap()
     {
         $this->kindMap = [
@@ -209,20 +224,6 @@ class Fetch extends TraceableQuery
     }
 
     /**
-     * @param array $args
-     */
-    public function setPaginationByArgs(array $args)
-    {
-        if (isset($args['per_page'])) {
-            $this->per_page = min(self::PER_PAGE_MAX_LIMIT, $args['per_page']);
-        }
-
-        if (isset($args['page'])) {
-            $this->page = $args['page'];
-        }
-    }
-
-    /**
      * @param $query
      * @param $args
      * @param int $depth
@@ -231,7 +232,7 @@ class Fetch extends TraceableQuery
      */
     public function iterateQueryArgs($query, $args, int $depth = 1)
     {
-        if ($depth > self::MAXIMUM_DEPTH) {
+        if ($depth > Constants::MAXIMUM_DEPTH) {
             throw new MaximumDepthReachedException();
         }
 
@@ -255,9 +256,10 @@ class Fetch extends TraceableQuery
 
     /**
      * Build all query parts together and runs the query
+     *
      * @return mixed
      * @throws AccessDeniedException
-     * @throws \Shirokovnv\LaravelQueryApiBackend\Exceptions\BadArgumentException
+     * @throws BadArgumentException|UnknownQueryPartException
      */
     public function run()
     {
@@ -277,7 +279,7 @@ class Fetch extends TraceableQuery
                 $this->query = $this->kindMap[$kind]($this->query, $query_part['args']);
             }
 
-            $per_page = $this->per_page ?? self::PER_PAGE_MAX_LIMIT;
+            $per_page = $this->per_page ?? Constants::PER_PAGE_MAX_LIMIT;
             $page = $this->page ?? 1;
             $offset = $page ? $per_page * ($this->page - 1) : 0;
             $total = $this->query->count();
@@ -299,6 +301,7 @@ class Fetch extends TraceableQuery
     /**
      * @param $result
      * @return mixed
+     * @throws BadArgumentException
      */
     public function getFilteredResultByPermissions($result)
     {

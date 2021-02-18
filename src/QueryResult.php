@@ -1,17 +1,26 @@
 <?php
 
-
 namespace Shirokovnv\LaravelQueryApiBackend;
 
 use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryChainLog;
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
 
+/**
+ * Class QueryResult
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend
+ */
 class QueryResult implements JsonSerializable, Arrayable
 {
+    /**
+     * Success status for runned query
+     */
     private const STATUS_SUCCESS = 'success';
+    /**
+     * Failed status for runned query
+     */
     private const STATUS_FAILED = 'failed';
-
     /**
      * @var array
      */
@@ -28,7 +37,6 @@ class QueryResult implements JsonSerializable, Arrayable
      * @var array
      */
     private $trace;
-
     /**
      * @var bool
      */
@@ -37,7 +45,6 @@ class QueryResult implements JsonSerializable, Arrayable
      * @var bool
      */
     private $warningable;
-
     /**
      * @var mixed
      */
@@ -48,10 +55,18 @@ class QueryResult implements JsonSerializable, Arrayable
      */
     private $log_instance;
 
-    public function __construct($request,
-                                bool $isTraceable,
-                                bool $isWarningable)
-    {
+    /**
+     * QueryResult constructor.
+     *
+     * @param $request
+     * @param bool $isTraceable
+     * @param bool $isWarningable
+     */
+    public function __construct(
+        $request,
+        bool $isTraceable,
+        bool $isWarningable
+    ) {
         $this->request = $request;
         $this->traceable = $isTraceable;
         $this->warningable = $isWarningable;
@@ -65,7 +80,7 @@ class QueryResult implements JsonSerializable, Arrayable
     /**
      * @return mixed
      */
-    public function getRequest()
+    public function getRequest(): mixed
     {
         return $this->request;
     }
@@ -82,7 +97,7 @@ class QueryResult implements JsonSerializable, Arrayable
      * @param string $key
      * @param $data
      */
-    public function addData(string $key, $data)
+    public function addData(string $key, $data): void
     {
         $this->data[$key] = [
             'content' => $data
@@ -93,7 +108,7 @@ class QueryResult implements JsonSerializable, Arrayable
      * @param string $key
      * @param $error
      */
-    public function addError(string $key, $error)
+    public function addError(string $key, $error): void
     {
         $this->errors[$key] = $error;
     }
@@ -102,7 +117,7 @@ class QueryResult implements JsonSerializable, Arrayable
      * @param string $key
      * @param $warning
      */
-    public function addWarning(string $key, $warning)
+    public function addWarning(string $key, $warning): void
     {
         $this->warnings[$key] = $warning;
     }
@@ -209,16 +224,25 @@ class QueryResult implements JsonSerializable, Arrayable
         return $this->warnings;
     }
 
+    /**
+     * @return bool
+     */
     public function hasErrors(): bool
     {
         return (!empty($this->errors));
     }
 
+    /**
+     * @return string
+     */
     public function getStatus(): string
     {
         return (!$this->hasErrors()) ? self::STATUS_SUCCESS : self::STATUS_FAILED;
     }
 
+    /**
+     * Initializes log for all runned queries
+     */
     public function setLogInstance(): void
     {
         $this->log_instance = QueryLogger::initializeQueryChainLog($this);

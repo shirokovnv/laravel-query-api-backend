@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Shirokovnv\LaravelQueryApiBackend\Support;
 
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\BadArgumentException;
@@ -33,11 +32,11 @@ class RelationChain
         $relation_name = explode(":", $relations[0])[0];
 
         $related_model_class = get_class(
-            with(new $model_class_name)->{$relation_name}()->getRelated()
+            with(new $model_class_name())->{$relation_name}()->getRelated()
         );
 
         $relation_class = get_class(
-            with(new $model_class_name)->{$relation_name}()
+            with(new $model_class_name())->{$relation_name}()
         );
 
         $exploded_rel = explode("\\", $relation_class);

@@ -4,13 +4,26 @@ namespace Shirokovnv\LaravelQueryApiBackend\Errors;
 
 use Exception;
 
+/**
+ * Class ClientError
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ */
 class ClientError extends QueryError
 {
+    /**
+     * ClientError constructor.
+     *
+     * @param Exception $e
+     */
     public function __construct(Exception $e)
     {
         parent::__construct($e, 'client');
     }
 
+    /**
+     * @return array
+     */
     public function getErrorContent(): array
     {
         return [

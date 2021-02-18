@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Shirokovnv\LaravelQueryApiBackend\Exceptions;
 
 use Exception;
@@ -15,7 +14,8 @@ class BadQueriedClassException extends Exception
         parent::__construct($prepared_message, $code, $previous);
     }
 
-    private function prepareMessage() {
+    private function prepareMessage()
+    {
         return "Model class should have one of these ancestors: "
             . implode(",", Constants::AVAILABLE_MODEL_PARENT_CLASSES)
             . ". Custom query class should implement one of these interfaces: "

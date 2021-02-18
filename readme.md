@@ -47,6 +47,10 @@ Request must contain following keys:
 
 > query_mode
 
+> client_request_id
+
+This can be provided in middleware (check example controller and ClientRequestId middleware)
+
 Example controller: 
 
 > Shirokovnv\LaravelQueryApiBackend\Http\Controllers\QueryApiController

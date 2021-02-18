@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Shirokovnv\LaravelQueryApiBackend;
 
 use Shirokovnv\LaravelQueryApiBackend\Queries\TraceableQuery;
@@ -8,6 +7,11 @@ use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryChainLog;
 use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryLog;
 use Illuminate\Support\Collection;
 
+/**
+ * Class QueryLogger
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend
+ */
 class QueryLogger
 {
     /**
@@ -26,15 +30,14 @@ class QueryLogger
                 'status' => $result->getStatus()
             ]
         );
-
     }
 
     /**
      * @param TraceableQuery $query
-     * @param int|null $query_chain_log_id
      * @return QueryLog
      */
-    public static function initializeQueryLog(TraceableQuery &$query) {
+    public static function initializeQueryLog(TraceableQuery &$query)
+    {
 
         $potentialError = $query->getError();
         $potentialErrorText = ($potentialError) ? $potentialError->renderForBackend() : null;
@@ -49,7 +52,6 @@ class QueryLogger
                 'error_text' => $potentialErrorText
             ]
         );
-
     }
 
     /**
@@ -60,10 +62,9 @@ class QueryLogger
     {
         $chain_log->save();
 
-        $query_log_collection->each(function(&$query_log) use ($chain_log) {
+        $query_log_collection->each(function (&$query_log) use ($chain_log) {
             $query_log->query_chain_log_id = $chain_log->id;
             $query_log->save();
         });
-
     }
 }

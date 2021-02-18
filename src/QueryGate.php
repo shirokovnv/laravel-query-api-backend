@@ -8,6 +8,11 @@ use Shirokovnv\LaravelQueryApiBackend\Support\RelationNode;
 use Shirokovnv\LaravelQueryApiBackend\Support\ShouldAuthorize;
 use Gate;
 
+/**
+ * Class QueryGate
+ *
+ * @package Shirokovnv\LaravelQueryApiBackend
+ */
 class QueryGate
 {
     private const ASTERISK = "*";
@@ -35,6 +40,7 @@ class QueryGate
      * Defines whether specific class should be authorized for specific abilities
      * Class should implement Shirokovnv\LaravelQueryApiBackend\Support\ShouldAuthorize interface for checking
      * Otherwise false will be returned
+     *
      * @param $ability
      * @param array|mixed $arguments
      * @return bool
@@ -105,6 +111,7 @@ class QueryGate
 
     /**
      * Checks for item permissions, defined in Laravel Policies
+     *
      * @param $item
      * @param RelationNode $rel_node
      * @param TraceableQuery $query
@@ -112,7 +119,6 @@ class QueryGate
      */
     public static function recursiveSetItemPermissions(&$item, RelationNode $rel_node, TraceableQuery &$query)
     {
-
         if ($item === null) {
             return;
         }
@@ -125,7 +131,7 @@ class QueryGate
             $item_class = get_class($item);
 
             $relation_class = get_class(
-                with(new $item_class)->{$relation_name}()->getRelated()
+                with(new $item_class())->{$relation_name}()->getRelated()
             );
 
             if (self::isDropCandidate($relation_class)) {

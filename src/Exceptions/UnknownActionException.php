@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Shirokovnv\LaravelQueryApiBackend\Exceptions;
 
 use Exception;

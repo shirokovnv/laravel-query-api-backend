@@ -1,6 +1,5 @@
 <?php
 
-
 namespace Shirokovnv\LaravelQueryApiBackend\Support;
 
 class RelationNode

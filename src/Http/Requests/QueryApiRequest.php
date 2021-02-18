@@ -8,6 +8,7 @@ use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 
 /**
  * Class QueryApiRequest
+ *
  * @package Shirokovnv\LaravelQueryApiBackend\Http\Requests
  */
 class QueryApiRequest extends FormRequest
