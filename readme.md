@@ -23,18 +23,18 @@ $ composer require shirokovnv/laravel-query-api-backend
 
 Ensure all migrations done
 
-```bash
-    php artisan migrate
+``` bash
+php artisan migrate
 ```
 
 Once installed you can do stuff like this in Controller:
 
 ```php
-    $queryRunner = LaravelQueryApiBackend::makeQueryRunnerInstance($request, $options);
-    $queryResult = $queryRunner->run();
-    $queryRunner->saveLog();
+$queryRunner = LaravelQueryApiBackend::makeQueryRunnerInstance($request, $options);
+$queryResult = $queryRunner->run();
+$queryRunner->saveLog();
       
-    return response()->json($queryResult);
+return response()->json($queryResult);
 ```
 
 $request is Illuminate\Http\Request or Illuminate\Foundation\Http\FormRequest
