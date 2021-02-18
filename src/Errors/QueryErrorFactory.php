@@ -10,9 +10,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Validation\ValidationException;
 
 /**
- * Class QueryErrorFactory
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ * Class QueryErrorFactory.
  */
 class QueryErrorFactory
 {
@@ -23,7 +21,6 @@ class QueryErrorFactory
      */
     public static function createFor(Exception $e)
     {
-
         if ($e instanceof ValidationException) {
             return new ValidationError($e);
         }

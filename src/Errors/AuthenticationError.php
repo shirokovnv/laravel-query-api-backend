@@ -5,9 +5,7 @@ namespace Shirokovnv\LaravelQueryApiBackend\Errors;
 use Exception;
 
 /**
- * Class AuthenticationError
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ * Class AuthenticationError.
  */
 class AuthenticationError extends QueryError
 {
@@ -27,7 +25,7 @@ class AuthenticationError extends QueryError
     public function getErrorContent(): array
     {
         return [
-                'message' => 'Unauthenticated.'
-            ] + $this->getErrorTrace();
+            'message' => 'Unauthenticated.',
+        ] + $this->getErrorTrace();
     }
 }

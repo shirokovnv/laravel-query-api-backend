@@ -6,8 +6,7 @@ use Shirokovnv\LaravelQueryApiBackend\Exceptions\UnknownActionException;
 use Shirokovnv\LaravelQueryApiBackend\Support\Constants;
 
 /**
- * Class QueryFactory
- * @package Shirokovnv\LaravelQueryApiBackend\Queries
+ * Class QueryFactory.
  */
 class QueryFactory
 {
@@ -20,8 +19,7 @@ class QueryFactory
      */
     public static function create(array $query_data)
     {
-
-        if (!in_array($query_data['query'], Constants::AVAILABLE_ACTIONS)) {
+        if (! in_array($query_data['query'], Constants::AVAILABLE_ACTIONS)) {
             throw new UnknownActionException("{$query_data[query]}");
         }
 

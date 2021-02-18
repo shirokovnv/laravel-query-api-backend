@@ -19,7 +19,7 @@ class QueryLog extends Model
         'model_class_name',
         'client_query_data',
         'status',
-        'error_text'
+        'error_text',
     ];
 
     /**
@@ -29,7 +29,7 @@ class QueryLog extends Model
      */
     protected $casts = [
         'client_query_data' => 'array',
-        'error_text' => 'array'
+        'error_text' => 'array',
     ];
 
     public function query_chain(): BelongsTo

@@ -31,7 +31,6 @@ class Delete extends TraceableQuery
      */
     public function run()
     {
-
         $model = $this->model_class_name::findOrFail($this->id);
 
         if (QueryGate::denies('delete', $model)) {

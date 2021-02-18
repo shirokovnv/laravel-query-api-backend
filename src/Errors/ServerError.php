@@ -5,9 +5,7 @@ namespace Shirokovnv\LaravelQueryApiBackend\Errors;
 use Exception;
 
 /**
- * Class ServerError
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ * Class ServerError.
  */
 class ServerError extends QueryError
 {
@@ -27,9 +25,9 @@ class ServerError extends QueryError
     public function getErrorContent(): array
     {
         return [
-                'exception' => get_class($this->exception),
-                'message' => $this->exception->getMessage(),
-                'code' => $this->exception->getCode()
-            ] + $this->getErrorTrace();
+            'exception' => get_class($this->exception),
+            'message' => $this->exception->getMessage(),
+            'code' => $this->exception->getCode(),
+        ] + $this->getErrorTrace();
     }
 }

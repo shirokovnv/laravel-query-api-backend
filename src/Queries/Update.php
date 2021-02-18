@@ -44,6 +44,7 @@ class Update extends TraceableQuery
 
         return $this->trace(function () use ($model) {
             $model->update($this->params);
+
             return $model;
         });
     }

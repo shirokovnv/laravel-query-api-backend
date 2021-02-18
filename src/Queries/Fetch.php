@@ -2,7 +2,6 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend\Queries;
 
-use DB;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\AccessDeniedException;
 use Shirokovnv\LaravelQueryApiBackend\Exceptions\BadArgumentException;
@@ -14,9 +13,7 @@ use Shirokovnv\LaravelQueryApiBackend\Support\RelationChain;
 use Str;
 
 /**
- * Class Fetch
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Queries
+ * Class Fetch.
  */
 class Fetch extends TraceableQuery
 {
@@ -85,7 +82,7 @@ class Fetch extends TraceableQuery
     }
 
     /**
-     * Builds map of usable conditions in fetch query
+     * Builds map of usable conditions in fetch query.
      */
     private function buildKindMap()
     {
@@ -93,11 +90,11 @@ class Fetch extends TraceableQuery
             'with' => function ($q, $args) {
 
                 /**
-                 * build relation chain based on dot notation, e.g.: posts.user.comments
+                 * build relation chain based on dot notation, e.g.: posts.user.comments.
                  */
                 foreach ($args['table_name_list'] as $relation_name) {
                     // If we have nested relations
-                    $nested_relations = explode(".", $relation_name);
+                    $nested_relations = explode('.', $relation_name);
 
                     $this->relation_chains[$relation_name] =
                         new RelationChain($this->model_class_name, $nested_relations);
@@ -111,7 +108,6 @@ class Fetch extends TraceableQuery
             },
 
             'whereIn' => function ($q, $args) {
-
                 return $q->whereIn($args['key'], $args['values']);
             },
 
@@ -120,25 +116,21 @@ class Fetch extends TraceableQuery
             },
 
             'whereHas' => function ($q, $args, $depth = 1) {
-
-                if (!$args['subquery']) {
+                if (! $args['subquery']) {
                     return $q->whereHas($args['relation']);
                 }
 
                 return $q->whereHas($args['relation'], function ($qw) use ($args, $depth) {
-
                     $this->iterateQueryArgs($qw, $args['subquery']['params']['parts'], $depth);
                 });
             },
 
             'orWhereHas' => function ($q, $args, $depth = 1) {
-
-                if (!$args['subquery']) {
+                if (! $args['subquery']) {
                     return $q->orWhereHas($args['relation']);
                 }
 
                 return $q->whereHas($args['relation_name'], function ($qw) use ($args, $depth) {
-
                     $this->iterateQueryArgs($qw, $args['subquery']['parts'], $depth);
                 });
             },
@@ -148,8 +140,7 @@ class Fetch extends TraceableQuery
             },
 
             'whereDoesntHave' => function ($q, $args, $depth = 1) {
-
-                if (!$args['subquery']) {
+                if (! $args['subquery']) {
                     return $q->whereDoesntHave($args['relation']);
                 }
 
@@ -159,8 +150,7 @@ class Fetch extends TraceableQuery
             },
 
             'orWhereDoesntHave' => function ($q, $args, $depth = 1) {
-
-                if (!$args['subquery']) {
+                if (! $args['subquery']) {
                     return $q->orWhereDoesntHave($args['relation']);
                 }
 
@@ -198,7 +188,6 @@ class Fetch extends TraceableQuery
             },
 
             'scope' => function ($q, $args) {
-
                 $scopeName = ucfirst(Str::camel($args['name']));
                 $scopeParams = $args['params'];
 
@@ -219,7 +208,7 @@ class Fetch extends TraceableQuery
 
             'select' => function ($q, $args) {
                 return $q->select($args['columns']);
-            }
+            },
         ];
     }
 
@@ -238,7 +227,7 @@ class Fetch extends TraceableQuery
 
         foreach ($args as $query_part) {
             $kind = $query_part['kind'];
-            if (!$this->isKindOfQueryPartExists($kind)) {
+            if (! $this->isKindOfQueryPartExists($kind)) {
                 throw new UnknownQueryPartException($kind);
             }
             $this->kindMap[$kind]($query, $query_part['args'], $depth + 1);
@@ -251,11 +240,11 @@ class Fetch extends TraceableQuery
      */
     public function isKindOfQueryPartExists(string $kind)
     {
-        return (array_key_exists($kind, $this->kindMap));
+        return array_key_exists($kind, $this->kindMap);
     }
 
     /**
-     * Build all query parts together and runs the query
+     * Build all query parts together and runs the query.
      *
      * @return mixed
      * @throws AccessDeniedException
@@ -268,12 +257,11 @@ class Fetch extends TraceableQuery
         }
 
         return $this->trace(function () {
-
             $this->query = $this->model_class_name::query();
 
             foreach ($this->args as $query_part) {
                 $kind = $query_part['kind'];
-                if (!$this->isKindOfQueryPartExists($kind)) {
+                if (! $this->isKindOfQueryPartExists($kind)) {
                     throw new UnknownQueryPartException($kind);
                 }
                 $this->query = $this->kindMap[$kind]($this->query, $query_part['args']);

@@ -2,11 +2,11 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend\Queries;
 
+use DB;
 use Shirokovnv\LaravelQueryApiBackend\Errors\QueryError;
 use Shirokovnv\LaravelQueryApiBackend\QueryLogger;
 use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryLog;
 use Shirokovnv\LaravelQueryApiBackend\Support\Runnable;
-use DB;
 use Str;
 
 abstract class TraceableQuery implements Runnable
@@ -75,7 +75,7 @@ abstract class TraceableQuery implements Runnable
     }
 
     /**
-     * Generates unique string, representing backend request ID
+     * Generates unique string, representing backend request ID.
      */
     public function makeUUID(): void
     {
@@ -170,16 +170,13 @@ abstract class TraceableQuery implements Runnable
         $this->action_name = $action_name;
     }
 
-    /**
-     *
-     */
     public function clearWarnings(): void
     {
         $this->warnings = [];
     }
 
     /**
-     * Clears traced SQL-query
+     * Clears traced SQL-query.
      */
     public function clearTrace(): void
     {
@@ -219,7 +216,7 @@ abstract class TraceableQuery implements Runnable
     }
 
     /**
-     * Traces SQL-query and fixes result, executed in $fn
+     * Traces SQL-query and fixes result, executed in $fn.
      *
      * @param callable $fn
      * @return mixed
@@ -240,7 +237,6 @@ abstract class TraceableQuery implements Runnable
      */
     public function addTracedSQL($sql_log)
     {
-
         foreach ($sql_log as $sql) {
             $query = $sql['query'];
             $bindings = $sql['bindings'];
@@ -252,13 +248,13 @@ abstract class TraceableQuery implements Runnable
 
             $this->trace[] = [
                 'sql' => Str::replaceArray('?', $params, $query),
-                'time' => $time
+                'time' => $time,
             ];
         }
     }
 
     /**
-     * Initializes log
+     * Initializes log.
      */
     public function setLogInstance(): void
     {

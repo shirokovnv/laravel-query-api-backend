@@ -5,9 +5,7 @@ namespace Shirokovnv\LaravelQueryApiBackend;
 use Illuminate\Support\ServiceProvider;
 
 /**
- * Class LaravelQueryApiBackendServiceProvider
- *
- * @package Shirokovnv\LaravelQueryApiBackend
+ * Class LaravelQueryApiBackendServiceProvider.
  */
 class LaravelQueryApiBackendServiceProvider extends ServiceProvider
 {
@@ -18,7 +16,7 @@ class LaravelQueryApiBackendServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
         // $this->loadRoutesFrom(__DIR__.'/routes.php');
 
         // Publishing is only necessary when using the CLI.
@@ -35,7 +33,7 @@ class LaravelQueryApiBackendServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->mergeConfigFrom(
-            __DIR__ . '/../config/laravel-query-api-backend.php',
+            __DIR__.'/../config/laravel-query-api-backend.php',
             'laravel-query-api-backend'
         );
 
@@ -65,8 +63,7 @@ class LaravelQueryApiBackendServiceProvider extends ServiceProvider
         // Publishing the configuration file.
         $this->publishes(
             [
-                __DIR__ . '/../config/laravel-query-api-backend.php'
-                    => config_path('laravel-query-api-backend.php'),
+                __DIR__.'/../config/laravel-query-api-backend.php' => config_path('laravel-query-api-backend.php'),
             ],
             'laravel-query-api-backend.config'
         );

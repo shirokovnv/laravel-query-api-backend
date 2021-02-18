@@ -18,7 +18,7 @@ class QueryChainLog extends Model
         'ip',
         'user_agent',
         'query_mode',
-        'status'
+        'status',
     ];
 
     /**
@@ -27,7 +27,7 @@ class QueryChainLog extends Model
      * @var array
      */
     protected $casts = [
-        'client_query_data' => 'array'
+        'client_query_data' => 'array',
     ];
 
     public function query_logs(): HasMany
