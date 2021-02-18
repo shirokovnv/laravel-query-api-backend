@@ -21,7 +21,7 @@ class QueryApiController extends \App\Http\Controllers\Controller
 
     public function runQueries(QueryApiRequest $request)
     {
-        // we use empty array here, for default options (see config)
+        // we use empty array here for default options (see config)
         $options = [];
         $queryRunner = LaravelQueryApiBackend::makeQueryRunnerInstance($request, $options);
 
