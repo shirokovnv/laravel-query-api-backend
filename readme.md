@@ -103,7 +103,6 @@ MIT. Please see the [license file](license.md) for more information.
 
 [link-packagist]: https://packagist.org/packages/shirokovnv/laravel-query-api-backend
 [link-downloads]: https://packagist.org/packages/shirokovnv/laravel-query-api-backend
-[link-travis]: https://travis-ci.org/shirokovnv/laravel-query-api-backend
 [link-styleci]: https://styleci.io/repos/335063835
 [link-author]: https://github.com/shirokovnv
 [link-contributors]: ../../contributors
