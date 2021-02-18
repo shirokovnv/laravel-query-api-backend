@@ -9,9 +9,7 @@ use Shirokovnv\LaravelQueryApiBackend\Http\Requests\QueryApiRequest;
 
 /**
  * Example controller for processing queries
- * Class QueryApiController
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Http\Controllers
+ * Class QueryApiController.
  */
 class QueryApiController extends \App\Http\Controllers\Controller
 {

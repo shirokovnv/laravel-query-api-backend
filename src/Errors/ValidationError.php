@@ -5,9 +5,7 @@ namespace Shirokovnv\LaravelQueryApiBackend\Errors;
 use Exception;
 
 /**
- * Class ValidationError
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ * Class ValidationError.
  */
 class ValidationError extends QueryError
 {
@@ -27,8 +25,8 @@ class ValidationError extends QueryError
     public function getErrorContent(): array
     {
         return [
-                'message' => $this->exception->getMessage(),
-                'errors' => $this->exception->errors()
-            ] + $this->getErrorTrace();
+            'message' => $this->exception->getMessage(),
+            'errors' => $this->exception->errors(),
+        ] + $this->getErrorTrace();
     }
 }

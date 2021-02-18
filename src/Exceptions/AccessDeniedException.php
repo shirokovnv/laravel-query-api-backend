@@ -9,7 +9,7 @@ class AccessDeniedException extends Exception
 {
     public function __construct(string $what_denied_message, Throwable $previous = null)
     {
-        $message = "You don't have access " . $what_denied_message;
+        $message = "You don't have access ".$what_denied_message;
         $code = 403;
         parent::__construct($message, $code, $previous);
     }

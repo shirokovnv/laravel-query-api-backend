@@ -2,23 +2,21 @@
 
 namespace Shirokovnv\LaravelQueryApiBackend;
 
-use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryChainLog;
 use Illuminate\Contracts\Support\Arrayable;
 use JsonSerializable;
+use Shirokovnv\LaravelQueryApiBackend\Support\Models\QueryChainLog;
 
 /**
- * Class QueryResult
- *
- * @package Shirokovnv\LaravelQueryApiBackend
+ * Class QueryResult.
  */
 class QueryResult implements JsonSerializable, Arrayable
 {
     /**
-     * Success status for runned query
+     * Success status for runned query.
      */
     private const STATUS_SUCCESS = 'success';
     /**
-     * Failed status for runned query
+     * Failed status for runned query.
      */
     private const STATUS_FAILED = 'failed';
     /**
@@ -100,7 +98,7 @@ class QueryResult implements JsonSerializable, Arrayable
     public function addData(string $key, $data): void
     {
         $this->data[$key] = [
-            'content' => $data
+            'content' => $data,
         ];
     }
 
@@ -229,7 +227,7 @@ class QueryResult implements JsonSerializable, Arrayable
      */
     public function hasErrors(): bool
     {
-        return (!empty($this->errors));
+        return ! empty($this->errors);
     }
 
     /**
@@ -237,11 +235,11 @@ class QueryResult implements JsonSerializable, Arrayable
      */
     public function getStatus(): string
     {
-        return (!$this->hasErrors()) ? self::STATUS_SUCCESS : self::STATUS_FAILED;
+        return (! $this->hasErrors()) ? self::STATUS_SUCCESS : self::STATUS_FAILED;
     }
 
     /**
-     * Initializes log for all runned queries
+     * Initializes log for all runned queries.
      */
     public function setLogInstance(): void
     {

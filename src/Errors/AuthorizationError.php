@@ -5,9 +5,7 @@ namespace Shirokovnv\LaravelQueryApiBackend\Errors;
 use Exception;
 
 /**
- * Class AuthorizationError
- *
- * @package Shirokovnv\LaravelQueryApiBackend\Errors
+ * Class AuthorizationError.
  */
 class AuthorizationError extends QueryError
 {
@@ -27,7 +25,7 @@ class AuthorizationError extends QueryError
     public function getErrorContent(): array
     {
         return [
-                'message' => $this->exception->getMessage()
-            ] + $this->getErrorTrace();
+            'message' => $this->exception->getMessage(),
+        ] + $this->getErrorTrace();
     }
 }

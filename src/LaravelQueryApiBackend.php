@@ -3,15 +3,13 @@
 namespace Shirokovnv\LaravelQueryApiBackend;
 
 /**
- * Class LaravelQueryApiBackend
- *
- * @package Shirokovnv\LaravelQueryApiBackend
+ * Class LaravelQueryApiBackend.
  */
 class LaravelQueryApiBackend
 {
     /**
      * Makes instance for query runner.
-     * For available options see config file
+     * For available options see config file.
      *
      * @param $request
      * @param array $options
