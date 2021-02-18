@@ -6,6 +6,10 @@ use Closure;
 use Illuminate\Http\Request;
 use Str;
 
+/**
+ * Class ClientRequestId
+ * @package Shirokovnv\LaravelQueryApiBackend\Http\Middleware
+ */
 class ClientRequestId
 {
     /**
