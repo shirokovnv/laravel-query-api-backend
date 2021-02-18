@@ -98,10 +98,13 @@ MIT. Please see the [license file](license.md) for more information.
 
 [ico-version]: https://img.shields.io/packagist/v/shirokovnv/laravel-query-api-backend.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/shirokovnv/laravel-query-api-backend.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/shirokovnv/laravel-query-api-backend/master.svg?style=flat-square
 [ico-styleci]: https://styleci.io/repos/335063835/shield
 
 [link-packagist]: https://packagist.org/packages/shirokovnv/laravel-query-api-backend
 [link-downloads]: https://packagist.org/packages/shirokovnv/laravel-query-api-backend
+[link-travis]: https://travis-ci.org/shirokovnv/laravel-query-api-backend
 [link-styleci]: https://styleci.io/repos/335063835
 [link-author]: https://github.com/shirokovnv
 [link-contributors]: ../../contributors
+
