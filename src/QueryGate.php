@@ -9,7 +9,8 @@ use Shirokovnv\LaravelQueryApiBackend\Support\RelationNode;
 use Shirokovnv\LaravelQueryApiBackend\Support\ShouldAuthorize;
 
 /**
- * Class QueryGate.
+ * Class QueryGate
+ * @package Shirokovnv\LaravelQueryApiBackend
  */
 class QueryGate
 {
