@@ -78,7 +78,7 @@ class QueryResult implements JsonSerializable, Arrayable
     /**
      * @return mixed
      */
-    public function getRequest(): mixed
+    public function getRequest()
     {
         return $this->request;
     }

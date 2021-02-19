@@ -165,7 +165,7 @@ abstract class QueryError implements JsonSerializable, Arrayable, Stringable
     /**
      * @return mixed
      */
-    protected function getException(): mixed
+    protected function getException()
     {
         return $this->exception;
     }
