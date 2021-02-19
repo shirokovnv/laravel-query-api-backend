@@ -2,6 +2,14 @@
 
 All notable changes to `LaravelQueryApiBackend` will be documented in this file.
 
+## Version 0.0.4
+
+### Added
+- styleci support
+
+### Fixed
+- type errors with mixed in a few classes
+
 ## Version 0.0.3
 
 ### Added
