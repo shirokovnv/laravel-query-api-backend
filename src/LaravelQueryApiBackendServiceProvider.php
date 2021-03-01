@@ -65,7 +65,7 @@ class LaravelQueryApiBackendServiceProvider extends ServiceProvider
             [
                 __DIR__.'/../config/laravel-query-api-backend.php' => config_path('laravel-query-api-backend.php'),
             ],
-            'laravel-query-api-backend.config'
+            'config'
         );
 
         // Registering package commands.

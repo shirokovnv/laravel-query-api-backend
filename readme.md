@@ -27,6 +27,12 @@ Ensure all migrations done
 php artisan migrate
 ```
 
+Publish configuration: 
+
+```php
+php artisan vendor:publish --provider="Shirokovnv\LaravelQueryApiBackend\LaravelQueryApiBackendServiceProvider" --tag=config
+```
+
 Once installed you can do stuff like this in Controller:
 
 ```php

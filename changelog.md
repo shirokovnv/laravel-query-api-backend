@@ -2,6 +2,11 @@
 
 All notable changes to `LaravelQueryApiBackend` will be documented in this file.
 
+## Version 0.0.5
+
+### Added
+- config tag for publishing
+
 ## Version 0.0.4
 
 ### Added
