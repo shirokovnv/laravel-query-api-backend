@@ -2,6 +2,11 @@
 
 All notable changes to `LaravelQueryApiBackend` will be documented in this file.
 
+## Version 0.0.6
+
+### Added 
+- documentation for authorization and validation
+
 ## Version 0.0.5
 
 ### Added

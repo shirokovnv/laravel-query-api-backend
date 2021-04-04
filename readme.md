@@ -74,6 +74,92 @@ runs a couple of queries individually.
 
 all occurred errors will be added to the error pool with the rest of the result.
 
+### Available types of queries:
+
+> create
+
+> delete
+
+> fetch (aka select)
+
+> find
+
+> update
+
+> custom
+
+### Authorization
+
+Package provides a way to authorize actions with your queries.
+
+By default no authorization needed.
+
+1. To switch it on, at first, the model you want to authorize requests for, should implement Shirokovnv\LaravelQueryApiBackend\Support\ShouldAuthorize interface.
+
+The interface is simple and contains one static method: 
+
+```php
+    public static function shouldAuthorizeAbilities(): array;
+```
+
+This function must return array that contains names of abilities, for ex. 
+
+```php
+    return ['create', 'update', 'view', 'viewAny'];
+```
+
+Query type names and authorization ability names correlate as: 
+
+create -> create
+
+custom -> custom
+
+delete -> delete
+
+fetch -> viewAny
+
+find -> view
+
+update -> update
+
+2. The second options are default [laravel policies](https://laravel.com/docs/8.x/authorization) for your models.
+
+Each policy contains specific methods, where you feel free to implement any 
+logic for query authorization.
+
+### Validation
+
+Each query can be validated the following way: 
+
+1. Use Laravel FormRequest generator for model.
+
+For ex. for App\Models\User create request with name Models\UserRequest
+
+2. Model should implement Shirokovnv\LaravelQueryApiBackend\Support\ShouldValidate interface
+
+with one static method: 
+
+```php
+    public static function shouldValidateActions(): array;
+```
+
+For ex: 
+
+```php
+    return ['create', 'fetch', 'update', 'delete'];
+```
+
+Available list of actions is equal to list of query type names.
+
+3. FormRequest action name to method correlation: 
+
+custom, create -> POST
+
+update -> PATCH
+
+delete -> DELETE
+
+find, fetch -> GET
 
 ## Change log
 
