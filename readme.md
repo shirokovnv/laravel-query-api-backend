@@ -9,8 +9,6 @@ Unified API for running queries with eloquent models from any http client.
 
 For query data format and usage in frontend see [this package](https://github.com/shirokovnv/laravel-query-api-frontend)
 
-> The package is in beta testing right now. 
-
 ## Installation
 
 Via Composer
